@@ -1,5 +1,4 @@
-// Main.java
-package main;
+package App;
 
 import View.JanelaPrincipal;
 
