@@ -86,4 +86,27 @@ public class EstoquePainel extends JPanel {
             }
         }
     }
+
+    public int obterNovaQuantidade() {
+        return 0;
+    }
+
+    public String obterCodigoBarras() {
+        return null;
+    }
+
+    public void exibirMensagem(String string) {
+    }
+
+    public String obterNomeProduto() {
+        return null;
+    }
+
+    public double obterPrecoProduto() {
+        return 0;
+    }
+
+    public int obterQuantidadeProduto() {
+        return 0;
+    }
 }
