@@ -1,24 +1,17 @@
 package View;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-
-
-import java.awt.*;
-
+import java.awt.Color;
 
 public class ClientesPainel extends JPanel {
     private DefaultTableModel tableModel;
     private JTable tabelaClientes;
     private JButton btnCadastrarCliente, btneditarCliente, btnApagarCliente;
-    
-    
 
     public ClientesPainel() {
         // Configuração da tabela de clientes
@@ -28,23 +21,21 @@ public class ClientesPainel extends JPanel {
 
         // Configuração dos botões
         btnCadastrarCliente = new JButton("Cadastrar");
-         btnCadastrarCliente.setBackground(Color.GREEN);
+        btnCadastrarCliente.setBackground(Color.GREEN);
         btneditarCliente = new JButton("Editar");
         btneditarCliente.setBackground(Color.YELLOW);
         btnApagarCliente = new JButton("Apagar");
         btnApagarCliente.setBackground(Color.RED);
 
-
         // Adicionando componentes ao painel
         add(new JScrollPane(tabelaClientes));
         add(btnCadastrarCliente);
         add(btneditarCliente);
-         add(btnApagarCliente);
+        add(btnApagarCliente);
 
         // Configurando ação para o botão Cadastrar Novo Cliente
         btnCadastrarCliente.addActionListener(e -> cadastrarNovoCliente());
         btneditarCliente.addActionListener(e -> editarNovoCliente());
-
     }
   
     private void cadastrarNovoCliente() {
@@ -74,34 +65,45 @@ public class ClientesPainel extends JPanel {
 
     private void editarNovoCliente() {
         int rowIndex = tabelaClientes.getSelectedRow();
-    
+
         if (rowIndex == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um cliente para editar.");
             return;
         }
-    
-        tabelaClientes.editCellAt(rowIndex, 0);
-        tabelaClientes.getEditorComponent().requestFocus();
+
+        int opcao = JOptionPane.showConfirmDialog(this, "Deseja realmente editar o cliente selecionado?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+        if (opcao == JOptionPane.YES_OPTION) {
+            tabelaClientes.editCellAt(rowIndex, 0);
+            tabelaClientes.getEditorComponent().requestFocus();
+        }
     }
 
-    public String obterNome() {
-        return null;
-    }
+    private void finalizaEdicao() {
+        int rowIndex = tabelaClientes.getSelectedRow();
 
-    public String obterCPF() {
-        return null;
-    }
+        if (rowIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um cliente para editar.");
+            return;
+        }
 
-    public String obterTelefone() {
-        return null;
-    }
+        tabelaClientes.getCellEditor().stopCellEditing();
 
-    public String obterEndereco() {
-        return null;
-    }
+        // Pode ser necessário ajustar a lógica abaixo dependendo dos nomes das colunas na sua tabela
+        String novoNome = (String) tabelaClientes.getValueAt(rowIndex, 0);
+        String novoCpf = (String) tabelaClientes.getValueAt(rowIndex, 1);
+        String novoTel = (String) tabelaClientes.getValueAt(rowIndex, 2);
+        String novoEndereco = (String) tabelaClientes.getValueAt(rowIndex, 3);
+        String novoEmail = (String) tabelaClientes.getValueAt(rowIndex, 4);
 
-    public String obterEmail() {
-        return null;
+        // Adicione aqui a lógica para processar os novos valores
+        // Exemplo: operacoes.atualizar(novoNome, novoCpf, novoTel, novoEmail, novoEndereco);
+
+        // Exibe mensagem de sucesso (opcional)
+        JOptionPane.showMessageDialog(this, "Cliente editado com sucesso!");
+
+        // Remove a seleção da tabela
+        tabelaClientes.clearSelection();
     }
     
     // // Método para finalizar a edição e atualizar os dados ao pressionar o botão "Editar"
