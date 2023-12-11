@@ -1,156 +1,78 @@
 package View;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VendasPainel extends JPanel {
     private DefaultTableModel tableModel;
     private JTable tabelaProdutos;
+    private JTextField nomeProdutoField;
+    private JTextField precoProdutoField;
+    private JTextField codigoProdutoField;
+    private JTextField quantidadeField;
+    private JButton btnNovaVenda;
     private JButton btnAdicionar;
     private JButton btnRemover;
-    private JButton btnConcluirCompra;
-    private JLabel lblTotal;
+    private JButton btnFormaPagamento;
+    private JButton btnDesconectar;
 
     public VendasPainel() {
-        // Configuração da tabela de produtos
-        String[] colunas = {"Produto", "Quantidade", "Preço"};
-        tableModel = new DefaultTableModel(colunas, 0);
-        tabelaProdutos = new JTable(tableModel);
+        setLayout(new BorderLayout());
 
-        // Configuração dos botões
+        // Componentes à esquerda
+        JPanel leftPanel = new JPanel(new GridLayout(2, 2));
+        leftPanel.add(new JLabel("Nome do Produto:"));
+        leftPanel.add(new JLabel("Preço do Produto:"));
+        nomeProdutoField = new JTextField();
+        precoProdutoField = new JTextField();
+        leftPanel.add(nomeProdutoField);
+        leftPanel.add(precoProdutoField);
+        add(leftPanel, BorderLayout.WEST);
+
+        // Componentes no meio
+        tableModel = new DefaultTableModel();
+        tabelaProdutos = new JTable(tableModel);
+        add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
+
+        // Componentes à direita
+        JPanel rightPanel = new JPanel(new GridLayout(8, 1));
+        codigoProdutoField = new JTextField();
+        quantidadeField = new JTextField();
+        rightPanel.add(new JLabel("Código do Produto:"));
+        rightPanel.add(codigoProdutoField);
+        rightPanel.add(new JLabel("Quantidade:"));
+        rightPanel.add(quantidadeField);
+
+        btnNovaVenda = new JButton("Nova Venda");
         btnAdicionar = new JButton("Adicionar");
         btnRemover = new JButton("Remover");
-        btnConcluirCompra = new JButton("Concluir Compra");
+        btnFormaPagamento = new JButton("Forma de Pagamento");
+        btnDesconectar = new JButton("Desconectar");
 
-        // Configuração do rótulo para exibir o total
-        lblTotal = new JLabel("Total: R$ 0.00");
+        rightPanel.add(btnNovaVenda);
+        rightPanel.add(btnAdicionar);
+        rightPanel.add(btnRemover);
+        rightPanel.add(btnFormaPagamento);
+        rightPanel.add(btnDesconectar);
 
-        // Adicionando componentes ao painel
-        add(new JScrollPane(tabelaProdutos));
-        add(btnAdicionar);
-        add(btnRemover);
-        add(btnConcluirCompra);
-        add(lblTotal);
+        add(rightPanel, BorderLayout.EAST);
 
-        // Configurando ação para o botão Adicionar
+        // Configuração dos botões
         btnAdicionar.addActionListener(e -> adicionarProduto());
-
-        // Configurando ação para o botão Remover
         btnRemover.addActionListener(e -> removerProduto());
-
-        // Configurando ação para o botão Concluir Compra
-        btnConcluirCompra.addActionListener(e -> concluirCompra());
+        // Adicione as configurações dos outros botões conforme necessário
     }
 
     private void adicionarProduto() {
-        String nomeProduto = JOptionPane.showInputDialog("Digite o nome do produto:");
-        if (nomeProduto != null && !nomeProduto.isEmpty()) {
-            try {
-                String quantidadeStr = JOptionPane.showInputDialog("Digite a quantidade:");
-                int quantidade = Integer.parseInt(quantidadeStr);
-    
-                String precoUnitarioStr = JOptionPane.showInputDialog("Digite o preço unitário:");
-                double precoUnitario = Double.parseDouble(precoUnitarioStr);
-    
-                // Adiciona o produto à tabela
-                Object[] linha = {nomeProduto, quantidade, precoUnitario};
-                tableModel.addRow(linha);
-    
-                // Atualiza o total
-                atualizarTotal();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Quantidade ou preço inválido(s).");
-            }
-        }
-    }
-    
-
-    private void atualizarTotal() {
+        // Lógica para adicionar produto
     }
 
     private void removerProduto() {
-        int linhaSelecionada = tabelaProdutos.getSelectedRow();
-        if (linhaSelecionada != -1) {
-            int confirmacao = JOptionPane.showConfirmDialog(
-                    this,
-                    "Deseja realmente remover este produto?",
-                    "Confirmação de Remoção",
-                    JOptionPane.YES_NO_OPTION
-            );
-    
-            if (confirmacao == JOptionPane.YES_OPTION) {
-                // Remove a linha selecionada da tabela
-                tableModel.removeRow(linhaSelecionada);
-    
-                // Atualiza o total
-                atualizarTotal();
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione um produto para remover.");
-        }
-    }
-    
-
-    private void concluirCompra() {
-        // Calcula o total final
-        double total = calcularTotalFinal();
-    
-        // Simula a impressão de um recibo
-        String recibo = criarRecibo(total);
-        System.out.println(recibo);  // Simula a impressão, você pode substituir por uma lógica de impressão real
-    
-        // Exibe uma mensagem indicando que a compra foi concluída
-        JOptionPane.showMessageDialog(this, "Compra concluída! Total: " + String.format("R$ %.2f", total));
-    
-        // Limpa a tabela e o total após a conclusão da compra
-        limparTabela();
-        atualizarTotal();
-    }
-    
-    private void limparTabela() {
+        // Lógica para remover produto
     }
 
-    private double calcularTotalFinal() {
-        double total = 0.0;
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            int quantidade = (int) tableModel.getValueAt(i, 1);
-            double precoUnitario = (double) tableModel.getValueAt(i, 2);
-            total += quantidade * precoUnitario;
-        }
-    
-        // Aplica o desconto de 10% se o cliente for VIP
-        // (simulação - adapte conforme a lógica real do seu projeto)
-        if (clienteEhVIP()) {
-            total *= 0.9;  // Aplica desconto de 10%
-        }
-    
-        return total;
-    }
-    
-    private String criarRecibo(double total) {
-        StringBuilder recibo = new StringBuilder();
-        recibo.append("=== RECIBO DE COMPRA ===\n");
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            String produto = (String) tableModel.getValueAt(i, 0);
-            int quantidade = (int) tableModel.getValueAt(i, 1);
-            double precoUnitario = (double) tableModel.getValueAt(i, 2);
-            recibo.append(String.format("%s - Quantidade: %d - Preço Unitário: R$ %.2f\n", produto, quantidade, precoUnitario));
-        }
-        recibo.append("=======================\n");
-        recibo.append(String.format("Total a pagar: R$ %.2f\n", total));
-        recibo.append("=======================\n");
-    
-        return recibo.toString();
-    }
-    
-    private boolean clienteEhVIP() {
-        // Simulação: retorna true se o cliente for VIP, ajuste conforme necessário
-        return JOptionPane.showConfirmDialog(this, "O cliente é VIP?", "Verificação VIP", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-    }
-    
+    // Adicione métodos para as ações dos outros botões conforme necessário
 }
