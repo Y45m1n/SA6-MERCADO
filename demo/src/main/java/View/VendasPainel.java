@@ -1,7 +1,6 @@
 package View;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,27 +36,28 @@ public class VendasPainel extends JPanel {
         tabelaProdutos = new JTable(tableModel);
         add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
 
-        // Componentes à direita
-        JPanel rightPanel = new JPanel(new GridLayout(8, 1));
+        // Campos de entrada de dados
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
         codigoProdutoField = new JTextField();
         quantidadeField = new JTextField();
-        rightPanel.add(new JLabel("Código do Produto:"));
-        rightPanel.add(codigoProdutoField);
-        rightPanel.add(new JLabel("Quantidade:"));
-        rightPanel.add(quantidadeField);
+        inputPanel.add(new JLabel("Código do Produto:"));
+        inputPanel.add(codigoProdutoField);
+        inputPanel.add(new JLabel("Quantidade:"));
+        inputPanel.add(quantidadeField);
+        add(inputPanel, BorderLayout.SOUTH);
 
+        // Componentes à direita
+        JPanel rightPanel = new JPanel(new GridLayout(8, 1));
         btnNovaVenda = new JButton("Nova Venda");
         btnAdicionar = new JButton("Adicionar");
         btnRemover = new JButton("Remover");
         btnFormaPagamento = new JButton("Forma de Pagamento");
         btnDesconectar = new JButton("Desconectar");
-
         rightPanel.add(btnNovaVenda);
         rightPanel.add(btnAdicionar);
         rightPanel.add(btnRemover);
         rightPanel.add(btnFormaPagamento);
         rightPanel.add(btnDesconectar);
-
         add(rightPanel, BorderLayout.EAST);
 
         // Configuração dos botões
