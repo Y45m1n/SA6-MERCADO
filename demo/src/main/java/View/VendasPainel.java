@@ -20,53 +20,45 @@ public class VendasPainel extends JPanel {
     private JButton btnDesconectar;
 
     public VendasPainel() {
+        setLayout(new BorderLayout());
 
-        JPanel painelGeral = new JPanel(new BorderLayout());
-        JPanel painelLista = new JPanel(new GridLayout(1, 1));
-        painelLista.setBorder(BorderFactory.createTitledBorder("Produtos"));
-        painelLista.add(new JScrollPane());
-        painelGeral.add(painelLista, BorderLayout.CENTER);
-        add(painelGeral);
+        // Componentes à esquerda
+        JPanel leftPanel = new JPanel(new GridLayout(2, 2));
+        leftPanel.add(new JLabel("Nome do Produto:"));
+        leftPanel.add(new JLabel("Preço do Produto:"));
+        nomeProdutoField = new JTextField();
+        precoProdutoField = new JTextField();
+        leftPanel.add(nomeProdutoField);
+        leftPanel.add(precoProdutoField);
+        add(leftPanel, BorderLayout.WEST);
 
-         btnNovaVenda = new JButton("Nova Venda");
+        // Componentes no centro (tabela)
+        tableModel = new DefaultTableModel();
+        tabelaProdutos = new JTable(tableModel);
+        add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
+
+        // Componentes à direita
+        JPanel rightPanel = new JPanel(new GridLayout(8, 1));
+        codigoProdutoField = new JTextField();
+        quantidadeField = new JTextField();
+        rightPanel.add(new JLabel("Código do Produto:"));
+        rightPanel.add(codigoProdutoField);
+        rightPanel.add(new JLabel("Quantidade:"));
+        rightPanel.add(quantidadeField);
+
+        btnNovaVenda = new JButton("Nova Venda");
         btnAdicionar = new JButton("Adicionar");
         btnRemover = new JButton("Remover");
         btnFormaPagamento = new JButton("Forma de Pagamento");
         btnDesconectar = new JButton("Desconectar");
-        JPanel rightPanel = new JPanel(new GridLayout(1, 4));
+
         rightPanel.add(btnNovaVenda);
         rightPanel.add(btnAdicionar);
         rightPanel.add(btnRemover);
         rightPanel.add(btnFormaPagamento);
         rightPanel.add(btnDesconectar);
-        add(rightPanel, BorderLayout.SOUTH);
 
-
-        JTextField nomeProduto = new JTextField(15);
-        JTextField valorProduto = new JTextField(15);
-        JLabel nome = new JLabel("Nome: ");
-        JLabel valor = new JLabel("Valor: R$");
-        JPanel leftPanel = new JPanel(new GridLayout(1, 1));
-        leftPanel.add(nomeProdutoField);
-        leftPanel.add(precoProdutoField);
-        add(leftPanel, BorderLayout.WEST);
-
-        JTextField digitarCodigo = new JTextField();
-        JLabel codigo = new JLabel("Codigo: ");
-        JTextField valorTotal = new JTextField();
-        JLabel valorTotalL = new JLabel("Total: R$");
-        JTextField quantidade = new JTextField("1");
-        JLabel quantidadeL = new JLabel("Quantidade: ");
-        JPanel painelCodigo = new JPanel(new GridLayout(1, 4));
-        painelCodigo.add(codigo);
-        painelCodigo.add(digitarCodigo); 
-        painelCodigo.add(quantidadeL);
-        painelCodigo.add(quantidade);
-        painelCodigo.add(valorTotalL);
-        painelCodigo.add(valorTotal);
-        painelGeral.add(painelCodigo, BorderLayout.SOUTH);
-
-        
+        add(rightPanel, BorderLayout.EAST);
 
         // Configuração dos botões
         btnAdicionar.addActionListener(e -> adicionarProduto());
