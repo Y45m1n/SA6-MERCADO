@@ -2,20 +2,31 @@ package Model;
 
 public class Venda {
     // atributos
-    private String Codigo;
+    private String codigo;
+    private String quantidade;
 
-    // construtor
-    public Venda(String codigo) {
-        Codigo = codigo;
+    //construtor
+    public Venda(String codigo, String quantidade) {
+        this.codigo = codigo;
+        this.quantidade = quantidade;
     }
+    //getters and setters
 
-    // getters and setters
     public String getCodigo() {
-        return Codigo;
+        return codigo;
     }
 
     public void setCodigo(String codigo) {
-        Codigo = codigo;
+        this.codigo = codigo;
     }
+
+    public String getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(String quantidade) {
+        this.quantidade = quantidade;
+    }
+    
 
 }

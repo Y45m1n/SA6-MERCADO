@@ -12,7 +12,7 @@
 
 // public class VendasControl {
 //     private VendasPainel view; // Referência à interface gráfica
-//     private Venda vendaAtual; // Representa a venda em andamento
+
 //     private ProdutoDAO produtoDAO;
 //     private VendaDAO vendaDAO;
 

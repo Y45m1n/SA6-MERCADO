@@ -1,4 +1,5 @@
 package View;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -8,8 +9,8 @@ import java.awt.event.ActionListener;
 public class VendasPainel extends JPanel {
     private DefaultTableModel tableModel;
     private JTable tabelaProdutos;
-    private JTextField nomeProdutoField;
-    private JTextField precoProdutoField;
+    private JLabel nomeProdutoLabel;
+    private JLabel precoProdutoLabel;
     private JTextField codigoProdutoField;
     private JTextField quantidadeField;
     private JButton btnNovaVenda;
@@ -23,12 +24,10 @@ public class VendasPainel extends JPanel {
 
         // Componentes à esquerda
         JPanel leftPanel = new JPanel(new GridLayout(2, 2));
-        leftPanel.add(new JLabel("Nome do Produto:"));
-        leftPanel.add(new JLabel("Preço do Produto:"));
-        nomeProdutoField = new JTextField();
-        precoProdutoField = new JTextField();
-        leftPanel.add(nomeProdutoField);
-        leftPanel.add(precoProdutoField);
+        nomeProdutoLabel = new JLabel("Nome do Produto:");
+        precoProdutoLabel = new JLabel("Preço do Produto:");
+        leftPanel.add(nomeProdutoLabel);
+        leftPanel.add(precoProdutoLabel);
         add(leftPanel, BorderLayout.WEST);
 
         // Componentes no centro (tabela)
@@ -37,9 +36,10 @@ public class VendasPainel extends JPanel {
         add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
 
         // Campos de entrada de dados
-        JPanel inputPanel = new JPanel(new GridLayout(2, 2));
+        JPanel inputPanel = new JPanel(new GridLayout(1, 1));
         codigoProdutoField = new JTextField();
         quantidadeField = new JTextField();
+        
         inputPanel.add(new JLabel("Código do Produto:"));
         inputPanel.add(codigoProdutoField);
         inputPanel.add(new JLabel("Quantidade:"));
