@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
 public class MainFrame extends JFrame {
 
     public MainFrame() {
-        super("Sistema supermercado");
+        super("Supermercado");
         setDefaultCloseOperation(2);
         // ---------------------*
         // Aplicativo principal:
@@ -33,5 +33,6 @@ public class MainFrame extends JFrame {
     public void run() {
         pack();
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 }

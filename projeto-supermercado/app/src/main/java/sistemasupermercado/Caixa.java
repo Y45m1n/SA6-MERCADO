@@ -245,5 +245,6 @@ public class Caixa extends JFrame {
     public void run() {
         pack();
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 }

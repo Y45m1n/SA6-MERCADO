@@ -23,6 +23,7 @@ public class VendasPanel extends JPanel {
         super();
 
         setLayout(new BorderLayout());
+      
 
         // Panel de entrada de dados
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 10, 10));
@@ -62,6 +63,7 @@ public class VendasPanel extends JPanel {
 
         new VendasDAO().criaTabela();
         atualizarTabela();
+       
     }
 
     public void atualizarTabela() {
