@@ -16,7 +16,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("Sistema supermercado");
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(2);
         // ---------------------*
         // Aplicativo principal:
         JTabbedPane abas = new JTabbedPane();
@@ -27,18 +27,7 @@ public class MainFrame extends JFrame {
         // ---------------------*
 
         // ---------------------*
-        addWindowListener(new WindowAdapter() {
-
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int res = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?",
-                        "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (res == JOptionPane.YES_OPTION) {
-                    setDefaultCloseOperation(2);
-                }
-            } // Questiona o usuário se realmente ele deseja fechar a aplicação
-
-        });
+     
     }
 
     public void run() {
