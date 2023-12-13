@@ -37,7 +37,7 @@ public class EstoquePanel extends JPanel {
         inputPreco = new JTextField(10);
         inputQuantidade = new JTextField(10);
 
-        inputPanel.add(new JLabel("Id do produto:"));
+        inputPanel.add(new JLabel("Código de barras:"));
         inputPanel.add(inputId);
         inputPanel.add(new JLabel("Nome do Produto:"));
         inputPanel.add(inputNomeProduto);
@@ -57,7 +57,7 @@ public class EstoquePanel extends JPanel {
         buttonPanel.add(apagaProduto);
 
         // Tabela
-        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Id", "Nome do Produto", "Preço (R$)", "Quantidade"});
+        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Código", "Nome do Produto", "Preço (R$)", "Quantidade"});
         table = new JTable(tableModel);
         scrollPane = new JScrollPane(table);
 
@@ -67,12 +67,9 @@ public class EstoquePanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Estilização dos botões
-        apagaProduto.setBackground(new Color(168, 3, 3));
-        apagaProduto.setForeground(new Color(255, 255, 255));
-        cadastraProduto.setBackground(new Color(46, 128, 32));
-        cadastraProduto.setForeground(new Color(255, 255, 255));
-        editaProduto.setBackground(new Color(109, 110, 109));
-        editaProduto.setForeground(new Color(255, 255, 255));
+        apagaProduto.setBackground(Color.red);
+        cadastraProduto.setBackground(Color.green);
+        editaProduto.setBackground(Color.yellow);
 
         // Tratamento de eventos
         table.addMouseListener(new MouseAdapter() {

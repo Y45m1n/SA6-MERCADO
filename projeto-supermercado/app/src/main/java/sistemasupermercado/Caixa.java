@@ -30,7 +30,7 @@ import sistemasupermercado.Gerenciamento.View.ClientesPanel;
 public class Caixa extends JFrame {
     // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton verificaCPF, cadastrarNovoCliente, fazerCompra, adicionaProduto, clienteVIP;
+    private JButton verificaCPF, cadastrarNovoCliente, fazerCompra, adicionaProduto;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
     private DefaultTableModel tableModel;
     private JTable table;
@@ -57,14 +57,16 @@ public class Caixa extends JFrame {
         inputProduto = new JTextField(20);
         valorFinal = new JTextField();
         quantidadeDeItens = new JTextField();
-        clienteVIP = new JButton("Cliente VIP");
+
         verificaCPF = new JButton("Verificar CPF");
+        verificaCPF.setBackground(Color.YELLOW);
         cadastrarNovoCliente = new JButton("Cadastrar novo cliente");
+        cadastrarNovoCliente.setBackground(Color.gray);
         adicionaProduto = new JButton("Adicionar Produto");
+        adicionaProduto.setBackground(Color.cyan);
         fazerCompra = new JButton("Fazer compra");
 
-        clienteVIP.setBackground(new Color(65, 166, 18));
-        clienteVIP.setForeground(new Color(252, 252, 252));
+       
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         add(mainPanel);
@@ -72,7 +74,7 @@ public class Caixa extends JFrame {
         cpfPanel.setLayout(new GridLayout(1, 4, 5, 4));
         cpfPanel.add(inputCPF);
         cpfPanel.add(verificaCPF);
-        cpfPanel.add(cadastrarNovoCliente);
+
         mainPanel.add(cpfPanel);
 
         produtoPanel.setLayout(new GridLayout(1, 2, 4, 5));
@@ -97,16 +99,25 @@ public class Caixa extends JFrame {
 
         buttonPanel.setLayout(new GridLayout(1, 1));
         buttonPanel.add(fazerCompra);
+        fazerCompra.setBackground(Color.GREEN);
         mainPanel.add(buttonPanel);
+         buttonPanel.add(cadastrarNovoCliente);
+      
 
         // Tratamento de eventos
         verificaCPF.addActionListener(e -> {
             isClienteVIP = validaCpf(inputCPF.getText());
             System.out.println(isClienteVIP);
-            if (isClienteVIP == true) {
+            if (verificaCPF.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo vazio");
+            }
+           
+           else if (isClienteVIP == true) {
                 JOptionPane.showMessageDialog(null, "Cliente VIP!");
                 JOptionPane.showMessageDialog(null, "Cliente VIP recebe um desconto de 20% do valor total da compra!");
-                cpfPanel.add(clienteVIP);
+                
+            }  else{
+                 JOptionPane.showMessageDialog(null, "Cliente não cadastrado!");
             }
             atualizaQuantidadeEValorTotal();
         });
@@ -154,50 +165,47 @@ public class Caixa extends JFrame {
     public void buscarProduto(int id) {
         contProduto = 1;
         produtos = new EstoqueDAO().listarTodos();
+        
         for (Estoque produto : produtos) {
             if (produto.getId() == id) {
                 produtoNaoEncontrado = false;
-                int res = JOptionPane.showConfirmDialog(null, "A quantidade do produto é maior que 1?",
-                        "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (res == JOptionPane.YES_OPTION) {
-
-                    try {
-                        contProduto = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade do produto:"));
-                    } catch (Exception err) {
-                        System.out.println(err);
-                        contProduto = 1;
-                    }
+    
+                try {
+                    contProduto = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade do produto:"));
+                } catch (Exception err) {
+                    System.out.println(err);
+                    contProduto = 1;
                 }
-
-                if (contProduto <= Integer.parseInt(produto.getQuantidade())) {
+    
+                if (contProduto > 0) {
                     int novaQuantidade = Integer.parseInt(produto.getQuantidade()) - contProduto;
-
-                    System.out.println(novaQuantidade);
-
-                    new EstoqueDAO().atualizarQuantidade(produto.getId(),
-                            String.valueOf(novaQuantidade));
-
+    
+                    if (novaQuantidade >= 0) {
+                        new EstoqueDAO().atualizarQuantidade(produto.getId(), String.valueOf(novaQuantidade));
+                        tableModel.addRow(new Object[] { produto.getNomeDoProduto(), contProduto, produto.getPreco() });
+    
+                        Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(),
+                                Double.parseDouble(produto.getPreco()), contProduto);
+                        listaDeCompra.add(produtoComprado);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Quantidade insuficiente em estoque", getTitle(),
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Quantidade inválida", getTitle(), JOptionPane.ERROR_MESSAGE);
-                    break;
                 }
-                tableModel.addRow(new Object[] {
-                        produto.getNomeDoProduto(), contProduto, produto.getPreco()
-                });
-
-                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(),
-                        Double.parseDouble(produto.getPreco()),
-                        contProduto);
-                listaDeCompra.add(produtoComprado);
+    
+                break; // Não precisa continuar procurando após encontrar o produto
             }
         }
-
+    
         if (produtoNaoEncontrado) {
             JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Mercado", JOptionPane.ERROR_MESSAGE);
         }
+    
         atualizaQuantidadeEValorTotal();
     }
-
+    
     public void atualizaTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         // Obtém os carros atualizados do banco de dados

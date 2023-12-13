@@ -21,8 +21,8 @@ public class MainFrame extends JFrame {
         // Aplicativo principal:
         JTabbedPane abas = new JTabbedPane();
         abas.add("Estoque", new EstoquePanel()); // Adiciona o painel de estoque ao TabbedPane
-        abas.add("Clientes", new ClientesPanel()); // Adiciona o painel de cliente ao TabbedPane
-        abas.add("Vendas", new VendasPanel()); // Adiciona o painel de vendas ao TabbedPane
+        abas.add("Relatório de Clientes", new ClientesPanel()); // Adiciona o painel de cliente ao TabbedPane
+        abas.add("Relatório de Vendas", new VendasPanel()); // Adiciona o painel de vendas ao TabbedPane
         add(abas);
         // ---------------------*
 

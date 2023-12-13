@@ -44,11 +44,10 @@ public class ClientesPanel extends JPanel {
 
         // Panel de botões
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        cadastraCliente = new JButton("Cadastrar");
+       
         editaCliente = new JButton("Editar");
         apagaCliente = new JButton("Excluir");
 
-        buttonPanel.add(cadastraCliente);
         buttonPanel.add(editaCliente);
         buttonPanel.add(apagaCliente);
 
@@ -63,12 +62,10 @@ public class ClientesPanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Estilização dos botões
-        apagaCliente.setBackground(new Color(168, 3, 3));
-        apagaCliente.setForeground(new Color(255, 255, 255));
-        cadastraCliente.setBackground(new Color(46, 128, 32));
-        cadastraCliente.setForeground(new Color(255, 255, 255));
-        editaCliente.setBackground(new Color(109, 110, 109));
-        editaCliente.setForeground(new Color(255, 255, 255));
+       
+        apagaCliente.setBackground(Color.red);
+        editaCliente.setBackground(Color.yellow);
+       
 
         // Tratamento de eventos
         table.addMouseListener(new MouseAdapter() {
@@ -85,23 +82,7 @@ public class ClientesPanel extends JPanel {
 
         ClientesControl control = new ClientesControl(clientes, tableModel, table);
 
-        // Cadastrar um cliente
-        cadastraCliente.addActionListener(e -> {
-            if (!inputCpf.getText().isEmpty() && !inputNome.getText().isEmpty()
-                    && !inputIdade.getText().isEmpty()) {
-
-                control.cadastrarCliente(inputCpf.getText(), inputNome.getText(), inputIdade.getText());
-                // Limpa os campos de entrada após a operação de cadastro
-                inputCpf.setText("");
-                inputNome.setText("");
-                inputIdade.setText("");
-            } else {
-                JOptionPane.showMessageDialog(inputPanel,
-                        "Preencha os campos corretamente para cadastrar um cliente!!", null,
-                        JOptionPane.WARNING_MESSAGE);
-            }
-        });
-
+       
         // Editar um cliente
         editaCliente.addActionListener(new ActionListener() {
             @Override
@@ -112,6 +93,7 @@ public class ClientesPanel extends JPanel {
                     control.atualizar(inputCpf.getText(), inputNome.getText(), inputIdade.getText());
                     // Limpa os campos de entrada após a operação de atualização
                 }
+                 atualizarTabela();
             }
         });
 
