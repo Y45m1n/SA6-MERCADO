@@ -1,25 +1,17 @@
-package sistemasupermercado.Gerenciamento.Connection;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.management.RuntimeErrorException;
-
+// Classe responsável por gerenciar a conexão com o banco de dados PostgreSQL
 public class ConnectionFactory {
     // Atributos
     private static final String url = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String usuario = "postgres"; // nome do ADM do banco
+    private static final String usuario = "postgres"; // Nome do administrador do banco
     private static final String senha = "postgres";
 
-    // métodos
+    // Método para obter uma conexão com o banco de dados
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(url, usuario, senha);
         } catch (Exception e) {
-            throw new RuntimeErrorException(null, "Erro ao obter conexão com o banco de dados");
+            // Em caso de erro ao obter a conexão, lança uma exceção RuntimeException
+            throw new RuntimeException("Erro ao obter conexão com o banco de dados", e);
         }
     }
 
@@ -30,13 +22,14 @@ public class ConnectionFactory {
                 connection.close();
             }
         } catch (SQLException ex) {
+            // Em caso de erro ao fechar a conexão, imprime o erro
             ex.printStackTrace();
         }
     }
 
     // Método para fechar a conexão e o objeto PreparedStatement
     public static void closeConnection(Connection connection, PreparedStatement stmt) {
-        closeConnection(connection);
+        closeConnection(connection);  // Chama o método para fechar a conexão
         try {
             if (stmt != null) {
                 stmt.close();
@@ -49,7 +42,7 @@ public class ConnectionFactory {
     // Método para fechar a conexão, o objeto PreparedStatement e o ResultSet
     public static void closeConnection(Connection connection, PreparedStatement stmt,
             ResultSet rs) {
-        closeConnection(connection, stmt);
+        closeConnection(connection, stmt);  // Chama o método para fechar a conexão e o PreparedStatement
         try {
             if (rs != null) {
                 rs.close();
