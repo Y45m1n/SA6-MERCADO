@@ -5,6 +5,6 @@ Repositório destinado a atividade avaliativa final de JAVA do 2º semestre do c
 Diogo Takamori / https://github.com/Diogotb
 
 <h2>👩‍💻 Integrantes do grupo:</h2>
-👩‍💻 Integrantes do grupo:
+
 Rhuan Carlos / https://github.com/RhuanCarlos019 <br>
 Yasmin Lima / https://github.com/Y45m1n
