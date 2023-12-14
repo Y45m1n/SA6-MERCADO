@@ -1,20 +1,24 @@
-package sistemasupermercado.Gerenciamento.Control;
-
+// Importação de bibliotecas necessárias para a implementação do controle
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+// Importação de classes específicas do projeto relacionadas ao banco de dados, controle e modelo
 import sistemasupermercado.Gerenciamento.Connection.VendasDAO;
 import sistemasupermercado.Gerenciamento.Model.Venda;
 
+// Classe que representa o controle para a funcionalidade de Vendas em uma interface gráfica
 public class VendasControl {
 
+    // Declaração de atributos
     private List<Venda> vendas;
     private DefaultTableModel tableModel;
     private JTable table;
 
+    // Construtor da classe
     public VendasControl(List<Venda> vendas, DefaultTableModel tableModel, JTable table) {
+        // Inicialização dos atributos com os parâmetros fornecidos
         this.vendas = vendas;
         this.tableModel = tableModel;
         this.table = table;
