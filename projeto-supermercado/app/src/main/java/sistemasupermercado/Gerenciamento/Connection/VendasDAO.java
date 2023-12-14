@@ -1,5 +1,4 @@
-package sistemasupermercado.Gerenciamento.Connection;
-
+// Importação das bibliotecas necessárias para manipulação de banco de dados
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,22 +7,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+// Importação da classe de modelo Venda
 import sistemasupermercado.Gerenciamento.Model.Venda;
 
+// Classe que realiza operações no banco de dados relacionadas às Vendas
 public class VendasDAO {
-    // Códigos para o banco de dados
-    // codigos para o banco de dados
-    // atributo
-    private Connection connection;
-    private List<Venda> vendas;
+    // Atributos
+    private Connection connection;  // Conexão com o banco de dados
+    private List<Venda> vendas;     // Lista para armazenar objetos do tipo Venda
 
-    // construtor
+    // Construtor da classe
     public VendasDAO() {
-        this.connection = ConnectionFactory.getConnection();
+        this.connection = ConnectionFactory.getConnection();  // Obtém a conexão com o banco de dados
     }
 
-    // métodos
-    // criar Tabela
+    // Método para criar a tabela no banco de dados se ela não existir
     public void criaTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS vendas_mercado (id serial not null PRIMARY KEY, cliente VARCHAR(255), valor VARCHAR(10), data VARCHAR(255), quantidade VARCHAR(10) )";
         try (Statement stmt = this.connection.createStatement()) {
@@ -36,41 +34,34 @@ public class VendasDAO {
         }
     }
 
-    // Listar todos os valores cadastrados
+    // Método para listar todas as vendas cadastradas no banco de dados
     public List<Venda> listarTodos() {
         PreparedStatement stmt = null;
-        // Declaração do objeto PreparedStatement para executar a consulta
         ResultSet rs = null;
-        // Declaração do objeto ResultSet para armazenar os resultados da consulta
-        vendas = new ArrayList<>();
-        // Cria uma lista para armazenar os carros recuperados do banco de dados
+        vendas = new ArrayList<>();  // Inicializa a lista de vendas
         try {
             stmt = connection.prepareStatement("SELECT * FROM vendas_mercado");
-            // Prepara a consulta SQL para selecionar todos os registros da tabela
             rs = stmt.executeQuery();
-            // Executa a consulta e armazena os resultados no ResultSet
-            while (rs.next()) {
-                // Para cada registro no ResultSet, cria um objeto Carros com os valores do
-                // registro
 
+            // Itera sobre os resultados da consulta
+            while (rs.next()) {
                 Venda venda = new Venda(
                         rs.getInt("id"),
                         rs.getString("cliente"),
                         rs.getString("valor"),
                         rs.getString("data"),
                         rs.getString("quantidade"));
-                vendas.add(venda); // Adiciona o objeto Clientes à lista de carros
+                vendas.add(venda);  // Adiciona cada venda à lista
             }
         } catch (SQLException ex) {
-            System.out.println(ex); // Em caso de erro durante a consulta, imprime o erro
+            System.out.println(ex);  // Em caso de erro durante a consulta, imprime o erro
         } finally {
             ConnectionFactory.closeConnection(connection, stmt, rs);
-
-            // Fecha a conexão, o PreparedStatement e o ResultSet
         }
-        return vendas; // Retorna a lista de clientes recuperados do banco de dados
+        return vendas;  // Retorna a lista de vendas recuperadas do banco de dados
     }
 
+    // Método para apagar a tabela no banco de dados
     public void apagarTabela() {
         String sql = "DROP TABLE vendas_mercado";
         try (Statement stmt = connection.createStatement()) {
@@ -83,9 +74,9 @@ public class VendasDAO {
         }
     }
 
+    // Método para cadastrar uma nova venda no banco de dados
     public void cadastrar(String cliente, String valor, String data, String quantidadeDeProdutos) {
         PreparedStatement stmt = null;
-        // Define a instrução SQL parametrizada para cadastrar na tabela
         String sql = "INSERT INTO vendas_mercado(cliente, valor, data, quantidade) VALUES (?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
@@ -102,15 +93,14 @@ public class VendasDAO {
         }
     }
 
-    // Apagar dados do banco
+    // Método para apagar uma venda do banco de dados pelo ID
     public void apagar(int id) {
         PreparedStatement stmt = null;
-        // Define a instrução SQL parametrizada para apagar dados pela placa
         String sql = "DELETE FROM vendas_mercado WHERE id = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
-            stmt.executeUpdate(); // Executa a instrução SQL
+            stmt.executeUpdate();
             System.out.println("Dado apagado com sucesso");
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
