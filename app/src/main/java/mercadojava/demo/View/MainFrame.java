@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import javafx.stage.WindowEvent;
+
 
 public class MainFrame extends JFrame {
 
@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
         add(abas);
         // ---------------------*
 
-        // ---------------------*
+        // ---------------------*funcionario
      
     }
 
